@@ -100,21 +100,16 @@ public:
         ++size_;
     }
 
-    SingleLinkedList(std::initializer_list<Type> values) 
-    {
-        PushFrontValues (values);
-    }
-
     SingleLinkedList(const SingleLinkedList& other) 
-    {
-        assert(size_ == 0 && head_.next_node == nullptr);
-
-        std::vector<Type> for_reverse;
-        for (auto value : other) {
-            for_reverse.push_back(value);
-        }
-        PushFrontValues (for_reverse);
+    : SingleLinkedList() {
+    ConstructListFromValues(other.begin(), other.end());
     }
+
+    SingleLinkedList(std::initializer_list<Type> values) 
+    : SingleLinkedList() {
+    ConstructListFromValues(values.begin(), values.end());
+    }
+
 
     SingleLinkedList& operator=(const SingleLinkedList& rhs) {
         if (this != &rhs) {
@@ -220,9 +215,13 @@ public:
     }
 
 private:
-    void PushFrontValues(const std::vector<Type>& values) {
-        for (auto it = values.rbegin(); it != values.rend(); ++it) {
-            PushFront(*it);
+    template <typename Iterator>
+    void ConstructListFromValues(Iterator begin, Iterator end) {
+        Node* current = &head_;
+        for (auto it = begin; it != end; ++it) {
+            current->next_node = new Node(*it, nullptr);
+            current = current->next_node;
+            ++size_;
         }
     }
 
