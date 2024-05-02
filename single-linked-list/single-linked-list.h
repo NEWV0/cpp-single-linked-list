@@ -215,31 +215,21 @@ public:
     }
 
 private:
-template <typename Iterator>
-void ConstructListFromValues(Iterator begin, Iterator end) {
-    Node temp_head;
-    Node* current = &temp_head;
-    size_t temp_size = 0;
+template <typename Iterator> 
+void ConstructListFromValues(Iterator begin, Iterator end) { 
+    Node temp_head; 
+    Node* current = &temp_head; 
+    size_t temp_size = 0; 
+ 
 
-    try {
-        for (auto it = begin; it != end; ++it) {
-            current->next_node = new Node(*it, nullptr);
-            current = current->next_node;
-            ++temp_size;
-        }
-    } catch (...) {
-        Node* node = temp_head.next_node;
-        while (node) {
-            Node* next = node->next_node;
-            delete node;
-            node = next;
-        }
-        throw; 
-    }
-
-    std::swap(head_.next_node, temp_head.next_node);
-    std::swap(size_, temp_size);
-}
+        for (auto it = begin; it != end; ++it) { 
+            current->next_node = new Node(*it, nullptr); 
+            current = current->next_node; 
+            ++temp_size; 
+        }  
+    std::swap(head_.next_node, temp_head.next_node); 
+    std::swap(size_, temp_size); 
+} 
 
     Node head_;
     size_t size_ = 0;
